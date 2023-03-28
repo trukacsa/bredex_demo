@@ -1,0 +1,33 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDE-specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Compiled class file
+*.class
+
+# Log files
+*.log
+
+# Maven-specific files
+mvnw
+mvnw.cmd
+mvn/
+
+# Ignore application properties.
+# Except CI and default configurations.
+**/application*.yml
+**/application*.yaml
+**/application*.properties
+
+!**/application.yml
+!**/application.yaml
+!**/application.properties
+
+!**/application-ci.yml
+!**/application-ci.yaml
+!**/application-ci.properties
