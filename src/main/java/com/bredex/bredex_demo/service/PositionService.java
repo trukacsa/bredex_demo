@@ -4,6 +4,7 @@ import com.bredex.bredex_demo.client.model.PositionModel;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -11,6 +12,13 @@ import java.util.stream.Collectors;
 @Service
 public class PositionService {
     private List<PositionModel> positions = new ArrayList<>();
+
+    public PositionService() {
+        PositionModel position1 = new PositionModel("Java Developer", "Budapest");
+        PositionModel position2 = new PositionModel("Backend Java Developer", "New York");
+        PositionModel position3 = new PositionModel("Frontend Developer", "London");
+        positions = Arrays.asList(position1, position2, position3);
+    }
 
     public PositionModel addPosition(final PositionModel positionModel) {
         positions.add(positionModel);
@@ -33,4 +41,3 @@ public class PositionService {
         return position.length() <= 50;
     }
 }
-
