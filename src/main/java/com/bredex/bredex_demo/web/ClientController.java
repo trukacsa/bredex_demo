@@ -2,7 +2,7 @@ package com.bredex.bredex_demo.web;
 
 import com.bredex.bredex_demo.client.model.ClientModel;
 import com.bredex.bredex_demo.service.ClientService;
-import com.bredex.bredex_demo.web.exception.ClientValidationException;
+import com.bredex.bredex_demo.web.exception.ValidationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,10 +24,10 @@ public class ClientController {
     public UUID registerClient(@RequestBody final ClientModel client) {
         var email = client.getEmail();
         if (!isValidEmail(email)) {
-            throw new ClientValidationException("Email: {} is invalid", email);
+            throw new ValidationException("Email address is invalid");
         }
         if (!clientService.isUniqueEmail(email)) {
-            throw new ClientValidationException("Email: {} is taken.", email);
+            throw new ValidationException("Email address is taken.");
         }
         UUID apiKey = clientService.generateApiKey();
         clientService.addClient(client);
