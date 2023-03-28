@@ -12,8 +12,9 @@ import java.util.stream.Collectors;
 public class PositionService {
     private List<PositionModel> positions = new ArrayList<>();
 
-    public void addPosition(final PositionModel positionModel) {
+    public PositionModel addPosition(final PositionModel positionModel) {
         positions.add(positionModel);
+        return positionModel;
     }
 
     public List<PositionModel> searchPositions(final String keyword, final String location) {
@@ -25,6 +26,11 @@ public class PositionService {
 
     public boolean isValidApiKey(final UUID apiKey) {
         return true;
+    }
+
+    public boolean isValidString(final String location, final String position) {
+        if (location.length() > 50) return false;
+        return position.length() <= 50;
     }
 }
 
