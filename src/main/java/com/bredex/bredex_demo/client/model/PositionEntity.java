@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Entity
 @Table(name = "position")
-public class PositionModel {
+public class PositionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String title;

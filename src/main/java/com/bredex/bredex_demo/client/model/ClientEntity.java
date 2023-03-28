@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Entity
 @Table(name = "client")
-public class ClientModel {
+public class ClientEntity {
     private String name;
     private String email;
 }

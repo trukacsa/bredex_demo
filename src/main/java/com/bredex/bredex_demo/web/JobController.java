@@ -1,8 +1,9 @@
 package com.bredex.bredex_demo.web;
 
-import com.bredex.bredex_demo.client.model.PositionModel;
+import com.bredex.bredex_demo.client.model.PositionEntity;
 import com.bredex.bredex_demo.service.PositionService;
 import com.bredex.bredex_demo.web.exception.ValidationException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor
 public class JobController {
     public static final String LOCATION_PARAM = "?location=";
     public static final String KEYWORD_PARAM = "&keyword=";
@@ -20,20 +22,16 @@ public class JobController {
     private String baseUrl;
     private final PositionService positionService;
 
-    public JobController(final PositionService positionService) {
-        this.positionService = positionService;
-    }
-
     @PostMapping("/position")
-    public ResponseEntity<String> addPosition(@RequestParam final UUID apiKey, @RequestBody final PositionModel positionModel) {
+    public ResponseEntity<String> addPosition(@RequestParam final UUID apiKey, @RequestBody final PositionEntity positionEntity) {
         if (!positionService.isValidApiKey(apiKey))
             throw new ValidationException("API key: {} is invalid.", apiKey.toString());
-        if (!positionService.isValidString(positionModel.getLocation()))
-            throw new ValidationException("Location: {} must be under 50 characters.", positionModel.getLocation());
-        if (!positionService.isValidString(positionModel.getTitle()))
-            throw new ValidationException("Location: {} must be under 50 characters.", positionModel.getLocation());
+        if (!positionService.isValidString(positionEntity.getLocation()))
+            throw new ValidationException("Location: {} must be under 50 characters.", positionEntity.getLocation());
+        if (!positionService.isValidString(positionEntity.getTitle()))
+            throw new ValidationException("Location: {} must be under 50 characters.", positionEntity.getLocation());
 
-        var addedPosition = positionService.addPosition(positionModel);
+        var addedPosition = positionService.addPosition(positionEntity);
         var extendedUrl = baseUrl + LOCATION_PARAM + addedPosition.getLocation() + KEYWORD_PARAM + addedPosition.getTitle();
 
         return ResponseEntity.created(URI.create(extendedUrl)).body(extendedUrl);
@@ -47,7 +45,7 @@ public class JobController {
             throw new ValidationException("Keyword: {} must be under 50 characters.", keyword);
         if (!positionService.isValidString(location))
             throw new ValidationException("Location: {} must be under 50 characters.", location);
-        List<PositionModel> positions = positionService.searchPositions(keyword, location);
+        List<PositionEntity> positions = positionService.searchPositions(keyword, location);
 
         List<String> positionUrls = positions.stream()
                 .map(position -> baseUrl + LOCATION_PARAM + position.getLocation() + KEYWORD_PARAM + position.getTitle())
@@ -56,7 +54,7 @@ public class JobController {
     }
 
     @GetMapping("/position/{id}")
-    public ResponseEntity<PositionModel> getPositionById(@PathVariable final Long id) {
+    public ResponseEntity<PositionEntity> getPositionById(@PathVariable final Long id) {
         if (id == null) {
             throw new ValidationException("Position ID must be not null");
         }

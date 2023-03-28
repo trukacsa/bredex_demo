@@ -1,7 +1,7 @@
 package com.bredex.bredex_demo.client;
 
-import com.bredex.bredex_demo.client.model.ClientModel;
+import com.bredex.bredex_demo.client.model.ClientEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClientRepository extends JpaRepository<ClientModel, Long> {
+public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
 }

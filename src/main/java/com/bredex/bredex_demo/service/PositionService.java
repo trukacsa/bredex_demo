@@ -1,7 +1,7 @@
 package com.bredex.bredex_demo.service;
 
 import com.bredex.bredex_demo.client.PositionRepository;
-import com.bredex.bredex_demo.client.model.PositionModel;
+import com.bredex.bredex_demo.client.model.PositionEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +13,15 @@ import java.util.UUID;
 public class PositionService {
     private PositionRepository positionRepository;
 
-    public List<PositionModel> searchPositions(String keyword, String location) {
+    public List<PositionEntity> searchPositions(final String keyword, final String location) {
         return positionRepository.findByTitleContainingIgnoreCaseAndLocationContainingIgnoreCase(keyword, location);
     }
 
-    public PositionModel addPosition(PositionModel positionModel) {
-        return positionRepository.saveAndFlush(positionModel);
+    public PositionEntity addPosition(final PositionEntity positionEntity) {
+        return positionRepository.saveAndFlush(positionEntity);
     }
 
-    public PositionModel getPositionById(Long id) {
+    public PositionEntity getPositionById(final Long id) {
         return positionRepository.getById(id);
     }
 
