@@ -2,7 +2,7 @@ package com.bredex.bredex_demo.service;
 
 import com.bredex.bredex_demo.client.ClientRepository;
 import com.bredex.bredex_demo.client.model.ClientEntity;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ClientService {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\\.([a-zA-Z]{2,})$");
     private ClientRepository clientRepository;

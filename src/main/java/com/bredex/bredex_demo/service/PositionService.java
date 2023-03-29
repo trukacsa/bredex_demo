@@ -3,6 +3,7 @@ package com.bredex.bredex_demo.service;
 import com.bredex.bredex_demo.client.PositionRepository;
 import com.bredex.bredex_demo.client.model.PositionEntity;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class PositionService {
     private PositionRepository positionRepository;
 
