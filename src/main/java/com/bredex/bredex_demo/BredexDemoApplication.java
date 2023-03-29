@@ -7,7 +7,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 @SpringBootApplication
-@EnableJpaRepositories
+@EnableJpaRepositories(basePackages = "com.bredex.bredex_demo.client")
 public class BredexDemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(BredexDemoApplication.class, args);

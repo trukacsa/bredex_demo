@@ -14,19 +14,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClientController {
     private final ClientService clientService;
+
     @PostMapping("/client")
-    public UUID registerClient(@RequestBody final ClientEntity client) {
-        var email = client.getEmail();
+    public UUID registerClient(@RequestBody final ClientEntity clientEntity) {
+        var email = clientEntity.getEmail();
         if (!clientService.isValidEmail(email)) {
             throw new ValidationException("Email address is invalid");
         }
-        if (!clientService.isValidEmail(email)) {
-            throw new ValidationException("Email address is taken.");
-        }
         UUID apiKey = clientService.generateApiKey();
-        client.setApiKey(apiKey);
-        clientService.addClient(client);
+        clientEntity.setApiKey(apiKey);
+        clientService.addClient(clientEntity);
         return apiKey;
     }
-
 }
