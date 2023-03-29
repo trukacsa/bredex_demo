@@ -1,4 +1,4 @@
-package com.bredex.bredex_demo.web;
+package com.bredex.bredex_demo.web.controller;
 
 import com.bredex.bredex_demo.client.model.PositionEntity;
 import com.bredex.bredex_demo.service.PositionService;

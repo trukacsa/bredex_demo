@@ -1,5 +1,6 @@
 package com.bredex.bredex_demo.client.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -18,11 +19,30 @@ import java.util.Properties;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class DatabaseConfig {
 
+    @Value("${db.schema.sql}")
+    private String schema;
+    @Value("${db.packages.to.scan}")
+    private String packages;
+    @Value("${db.persistence.unit}")
+    private String persistenceUnit;
+    @Value("${db.hybernate.dialect.key}")
+    private String dialectKey;
+    @Value("${db.hybernate.dialect.value}")
+    private String dialectValue;
+    @Value("${db.hybernate.show.sql.key}")
+    private String showSqlKey;
+    @Value("${db.hybernate.show.sql.value}")
+    private String showSqlValue;
+    @Value("${db.entity.manager.factory.name}")
+    private String entityManagerFactoryName;
+    @Value("${db.entity.manager.factory}")
+    private String entityManagerFactory;
+
     @Bean
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("schema.sql")
+                .addScript(schema)
                 .build();
     }
 
@@ -35,18 +55,18 @@ public class DatabaseConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(dataSource());
-        emf.setPackagesToScan("com.bredex.bredex_demo.client.model");
+        emf.setPackagesToScan(packages);
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         emf.setJpaProperties(jpaProperties());
-        emf.setPersistenceUnitName("bredex-demo-persistence-unit");
+        emf.setPersistenceUnitName(persistenceUnit);
         return emf;
     }
 
     private Properties jpaProperties() {
         Properties props = new Properties();
-        props.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-        props.setProperty("hibernate.show_sql", "true");
-        props.setProperty("hibernate.ejb.entitymanager_factory_name", "entityManager");
+        props.setProperty(dialectKey, dialectValue);
+        props.setProperty(showSqlKey, showSqlValue);
+        props.setProperty(entityManagerFactoryName, entityManagerFactory);
         return props;
     }
 

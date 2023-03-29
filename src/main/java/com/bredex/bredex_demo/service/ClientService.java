@@ -25,9 +25,9 @@ public class ClientService {
 
     public boolean isValidEmail(final String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
-        if (email == null || matcher.matches()) {
-            return false;
+        if (email != null && matcher.matches()) {
+            return true;
         }
-        return true;
+        return false;
     }
 }
