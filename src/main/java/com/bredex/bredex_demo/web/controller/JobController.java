@@ -27,11 +27,11 @@ public class JobController {
     @PostMapping("/position")
     public ResponseEntity<String> addPosition(@RequestParam final UUID apiKey, @RequestBody final PositionEntity positionEntity) {
         if (!clientService.isValidApiKey(apiKey))
-            throw new ValidationException("API key: {} is invalid.", apiKey.toString());
+            throw new ValidationException("API key is invalid.", apiKey.toString());
         if (!positionService.isValidString(positionEntity.getLocation()))
-            throw new ValidationException("Location: {} must be under 50 characters.", positionEntity.getLocation());
+            throw new ValidationException("Job location must be under 50 characters.", positionEntity.getLocation());
         if (!positionService.isValidString(positionEntity.getTitle()))
-            throw new ValidationException("Location: {} must be under 50 characters.", positionEntity.getLocation());
+            throw new ValidationException("Job title must be under 50 characters.", positionEntity.getLocation());
 
         var addedPosition = positionService.addPosition(positionEntity);
         var extendedUrl = baseUrl + LOCATION_PARAM + addedPosition.getLocation() + KEYWORD_PARAM + addedPosition.getTitle();
@@ -42,11 +42,11 @@ public class JobController {
     @GetMapping("/position/search")
     public ResponseEntity<List<String>> searchPositions(@RequestParam final UUID apiKey, @RequestParam final String keyword, @RequestParam final String location) {
         if (!clientService.isValidApiKey(apiKey))
-            throw new ValidationException("API key: {} is invalid.", apiKey.toString());
+            throw new ValidationException("API key is invalid.", apiKey.toString());
         if (!positionService.isValidString(keyword))
-            throw new ValidationException("Keyword: {} must be under 50 characters.", keyword);
+            throw new ValidationException("Job title keyword must be under 50 characters.", keyword);
         if (!positionService.isValidString(location))
-            throw new ValidationException("Location: {} must be under 50 characters.", location);
+            throw new ValidationException("Location must be under 50 characters.", location);
         List<PositionEntity> positions = positionService.searchPositions(keyword, location);
 
         List<String> positionUrls = positions.stream()

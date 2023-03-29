@@ -19,7 +19,7 @@ public class ClientController {
     public UUID registerClient(@RequestBody final ClientEntity clientEntity) {
         var email = clientEntity.getEmail();
         if (!clientService.isValidEmail(email)) {
-            throw new ValidationException("Email address is invalid");
+            throw new ValidationException("Email address is invalid", email);
         }
         UUID apiKey = clientService.generateApiKey();
         clientEntity.setApiKey(apiKey);

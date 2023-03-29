@@ -31,6 +31,9 @@ public class ClientService {
 
     public boolean isValidEmail(final String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
-        return email != null && matcher.matches();
+         if( email != null && !email.isEmpty() && matcher.matches() && !clientRepository.existsByEmail(email)){
+         return true;
+         }
+         return false;
     }
 }

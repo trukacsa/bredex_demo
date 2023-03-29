@@ -9,4 +9,6 @@ import java.util.UUID;
 @Repository
 public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
     ClientEntity findByApiKey(final UUID apiKey);
+
+    boolean existsByEmail(final String email);
 }
