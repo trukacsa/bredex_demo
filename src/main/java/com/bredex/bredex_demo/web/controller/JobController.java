@@ -34,7 +34,7 @@ public class JobController {
             throw new ValidationException("Job title must be under 50 characters.", positionEntity.getLocation());
 
         var addedPosition = positionService.addPosition(positionEntity);
-        var extendedUrl = baseUrl + LOCATION_PARAM + addedPosition.getLocation() + KEYWORD_PARAM + addedPosition.getTitle();
+        var extendedUrl = baseUrl + LOCATION_PARAM + removeSpaces(addedPosition.getLocation()) + KEYWORD_PARAM + removeSpaces(addedPosition.getTitle());
 
         return ResponseEntity.created(URI.create(extendedUrl)).body(extendedUrl);
     }
@@ -48,9 +48,11 @@ public class JobController {
         if (!positionService.isValidString(location))
             throw new ValidationException("Location must be under 50 characters.", location);
         List<PositionEntity> positions = positionService.searchPositions(keyword, location);
-
+        if (positions == null || positions.isEmpty()) {
+            throw new ValidationException("No positions found with the given keyword and location.");
+        }
         List<String> positionUrls = positions.stream()
-                .map(position -> baseUrl + LOCATION_PARAM + position.getLocation() + KEYWORD_PARAM + position.getTitle())
+                .map(position -> baseUrl + LOCATION_PARAM + removeSpaces(position.getLocation()) + KEYWORD_PARAM + removeSpaces(position.getTitle()))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(positionUrls);
     }
@@ -60,6 +62,14 @@ public class JobController {
         if (id == null) {
             throw new ValidationException("Position ID must be not null");
         }
-        return ResponseEntity.ok(positionService.getPositionById(id));
+        PositionEntity position = positionService.getPositionById(id);
+        if (position == null) {
+            throw new ValidationException("Position with ID not found", String.valueOf(id));
+        }
+        return ResponseEntity.ok(position);
+    }
+
+    private String removeSpaces(final String toBeModified) {
+        return toBeModified.replace(" ", "%20");
     }
 }
