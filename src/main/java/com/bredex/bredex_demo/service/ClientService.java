@@ -23,11 +23,12 @@ public class ClientService {
         return UUID.randomUUID();
     }
 
+    public boolean isValidApiKey(UUID apiKey) {
+        return clientRepository.findByApiKey(apiKey) != null;
+    }
+
     public boolean isValidEmail(final String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
-        if (email != null && matcher.matches()) {
-            return true;
-        }
-        return false;
+        return email != null && matcher.matches();
     }
 }

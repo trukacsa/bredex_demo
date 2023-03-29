@@ -14,6 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PositionService {
     private PositionRepository positionRepository;
+    private ClientService clientService;
 
     public List<PositionEntity> searchPositions(final String keyword, final String location) {
         return positionRepository.findByTitleContainingIgnoreCaseAndLocationContainingIgnoreCase(keyword, location);
@@ -25,10 +26,6 @@ public class PositionService {
 
     public PositionEntity getPositionById(final Long id) {
         return positionRepository.getById(id);
-    }
-
-    public boolean isValidApiKey(final UUID apiKey) {
-        return true;
     }
 
     public boolean isValidString(final String queryParam) {

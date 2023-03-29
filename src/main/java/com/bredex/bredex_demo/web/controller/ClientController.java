@@ -24,6 +24,7 @@ public class ClientController {
             throw new ValidationException("Email address is taken.");
         }
         UUID apiKey = clientService.generateApiKey();
+        client.setApiKey(apiKey);
         clientService.addClient(client);
         return apiKey;
     }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +18,5 @@ public class ClientEntity {
     private Long id;
     private String name;
     private String email;
+    private UUID apiKey;
 }

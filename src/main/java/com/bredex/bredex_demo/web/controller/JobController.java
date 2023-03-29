@@ -1,6 +1,7 @@
 package com.bredex.bredex_demo.web.controller;
 
 import com.bredex.bredex_demo.client.model.PositionEntity;
+import com.bredex.bredex_demo.service.ClientService;
 import com.bredex.bredex_demo.service.PositionService;
 import com.bredex.bredex_demo.web.exception.ValidationException;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +22,11 @@ public class JobController {
     @Value("${job.portal.base.url}")
     private String baseUrl;
     private final PositionService positionService;
+    private final ClientService clientService;
 
     @PostMapping("/position")
     public ResponseEntity<String> addPosition(@RequestParam final UUID apiKey, @RequestBody final PositionEntity positionEntity) {
-        if (!positionService.isValidApiKey(apiKey))
+        if (!clientService.isValidApiKey(apiKey))
             throw new ValidationException("API key: {} is invalid.", apiKey.toString());
         if (!positionService.isValidString(positionEntity.getLocation()))
             throw new ValidationException("Location: {} must be under 50 characters.", positionEntity.getLocation());
@@ -39,7 +41,7 @@ public class JobController {
 
     @GetMapping("/position/search")
     public ResponseEntity<List<String>> searchPositions(@RequestParam final UUID apiKey, @RequestParam final String keyword, @RequestParam final String location) {
-        if (!positionService.isValidApiKey(apiKey))
+        if (!clientService.isValidApiKey(apiKey))
             throw new ValidationException("API key: {} is invalid.", apiKey.toString());
         if (!positionService.isValidString(keyword))
             throw new ValidationException("Keyword: {} must be under 50 characters.", keyword);
