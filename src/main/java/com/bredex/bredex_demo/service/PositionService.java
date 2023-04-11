@@ -2,20 +2,15 @@ package com.bredex.bredex_demo.service;
 
 import com.bredex.bredex_demo.client.PositionRepository;
 import com.bredex.bredex_demo.client.model.PositionEntity;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 @RequiredArgsConstructor
 public class PositionService {
-    @Autowired
-    private PositionRepository positionRepository;
-    private ClientService clientService;
+    private final PositionRepository positionRepository;
 
     public List<PositionEntity> searchPositions(final String keyword, final String location) {
         return positionRepository.findByTitleContainingIgnoreCaseAndLocationContainingIgnoreCase(keyword, location);

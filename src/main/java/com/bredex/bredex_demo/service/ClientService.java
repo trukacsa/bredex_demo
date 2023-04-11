@@ -3,7 +3,6 @@ package com.bredex.bredex_demo.service;
 import com.bredex.bredex_demo.client.ClientRepository;
 import com.bredex.bredex_demo.client.model.ClientEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -14,8 +13,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class ClientService {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\\.([a-zA-Z]{2,})$");
-    @Autowired
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
     public void addClient(final ClientEntity clientEntity) {
         clientRepository.saveAndFlush(clientEntity);
@@ -31,9 +29,9 @@ public class ClientService {
 
     public boolean isValidEmail(final String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
-         if( email != null && !email.isEmpty() && matcher.matches() && !clientRepository.existsByEmail(email)){
-         return true;
-         }
-         return false;
+        if (email != null && !email.isEmpty() && matcher.matches() && !clientRepository.existsByEmail(email)) {
+            return true;
+        }
+        return false;
     }
 }
